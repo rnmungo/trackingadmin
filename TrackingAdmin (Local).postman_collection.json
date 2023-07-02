@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "67f0d3ec-045f-4814-ad5b-4992e0cdc892",
+		"name": "TrackingAdmin (Local)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4198944"
+	},
+	"item": [
+		{
+			"name": "Truck",
+			"item": [
+				{
+					"name": "All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/truck",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"truck"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Allowed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/truck/allowed",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"truck",
+								"allowed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"licensePlate\": \"4J2 3MJK\",\r\n    \"model\": \"Scania T412\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/truck",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"truck"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Distance",
+			"item": [
+				{
+					"name": "Shortest Route",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"originId\": \"0382533C-C9D2-424B-9BF2-8C3CF735E028\", // Buenos Aires\r\n    \"destinationIds\": [\r\n        \"4CBF0913-21D8-4B6F-9FA3-B617A84EE76F\", // Mendoza\r\n        \"CE0634D2-4CAA-4146-AEC1-2F1508A4317C\", // Formosa\r\n        \"E5E942BE-9746-43FE-BA53-641D9D55E1B5\", // Córdoba\r\n        \"56642316-57FA-4B78-BB98-C094BE9D1F60\" // Neuquén\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/distance/calibrate",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"distance",
+								"calibrate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RoadMap",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"truckId\": \"0fee1fa5-dbc8-4b3b-9a80-446d5c2bebdb\",\r\n    \"travels\": [\r\n        {\r\n            \"distanceId\": \"4b172f4d-8b32-4e46-83d3-a6c7330024ae\"\r\n        },\r\n        {\r\n            \"distanceId\": \"a42d6d61-658a-463f-a8c9-42ec8d62f98c\"\r\n        },\r\n        {\r\n            \"distanceId\": \"5709eb71-a510-471f-99bf-0849c3e36e81\"\r\n        },\r\n        {\r\n            \"distanceId\": \"b7fe5ba4-1aa8-43e6-893b-ed70f2fbbb67\"\r\n        },\r\n        {\r\n            \"distanceId\": \"5aa81fc2-c8aa-4f30-b082-567b5597c466\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/roadmap",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"roadmap"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Move Forward",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/roadmap/C6CFC5F3-AECA-49A3-B175-BBDDB847A5A7/move-forward",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"roadmap",
+								"C6CFC5F3-AECA-49A3-B175-BBDDB847A5A7",
+								"move-forward"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/roadmap/search",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"roadmap",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Location",
+			"item": [
+				{
+					"name": "All",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/location",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"location"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "https://localhost:7179/api",
+			"type": "string"
+		}
+	]
+}
