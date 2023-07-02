@@ -36,24 +36,45 @@ namespace BLL.TrackingAdmin.Services
             locations.Insert(0, originId);
             List<int> indexes = locations.Select(d => locationModels.FindIndex(c => c.Id == d)).ToList();
 
-            // Crea la matriz de distancias a partir de los datos
-            int n = locations.Count;
-            long[][] distanceMatrix = new long[n][];
-            for (int i = 0; i < locations.Count; i++)
+            // Matriz completa de distancias
+            int n = locationModels.Count;
+            long[][] fullDistanceMatrix = new long[n][];
+            for (int i = 0; i < locationModels.Count; i++)
             {
-                distanceMatrix[i] = new long[indexes.Count];
-                for (int j = 0; j < locations.Count; j++)
+                fullDistanceMatrix[i] = new long[locationModels.Count];
+                for (int j = 0; j < locationModels.Count; j++)
                 {
-                    var distance = distanceModels.FirstOrDefault(d => d.OriginLocationId == locationModels[i].Id && d.DestinationLocationId == locationModels[j].Id);
-                    distanceMatrix[i][j] = distance != null ? (long)distance.DistanceInKm : long.MaxValue;
+                    var distance = distanceModels.FirstOrDefault(d =>
+                        (d.OriginLocationId == locationModels[i].Id && d.DestinationLocationId == locationModels[j].Id) ||
+                            (d.DestinationLocationId == locationModels[i].Id && d.OriginLocationId == locationModels[j].Id));
+                    if (distance != null)
+                    {
+                        long distanceInKm = (long)distance.DistanceInKm;
+                        fullDistanceMatrix[i][j] = distanceInKm != 0 ? distanceInKm : long.MaxValue;
+                    }
+                    else
+                    {
+                        fullDistanceMatrix[i][j] = long.MaxValue;
+                    }
+                }
+            }
+
+            // Matriz reducida de distancias
+            long[][] smallDistanceMatrix = new long[indexes.Count][];
+            for (int i = 0; i < indexes.Count; i++)
+            {
+                smallDistanceMatrix[i] = new long[indexes.Count];
+                for (int j = 0; j < indexes.Count; j++)
+                {
+                    smallDistanceMatrix[i][j] = fullDistanceMatrix[indexes[i]][indexes[j]];
                 }
             }
 
             // Crea el problema del viajante de comercio.
-            RoutingIndexManager manager = new RoutingIndexManager(distanceMatrix.GetLength(0), 1, 0);
+            RoutingIndexManager manager = new RoutingIndexManager(smallDistanceMatrix.GetLength(0), 1, 0);
             RoutingModel routing = new RoutingModel(manager);
 
-            int transitCallbackIndex = routing.RegisterTransitCallback((long i, long j) => distanceMatrix[manager.IndexToNode(i)][manager.IndexToNode(j)]);
+            int transitCallbackIndex = routing.RegisterTransitCallback((long i, long j) => smallDistanceMatrix[manager.IndexToNode(i)][manager.IndexToNode(j)]);
 
             // Define el costo de cada arco.
             routing.SetArcCostEvaluatorOfAllVehicles(transitCallbackIndex);

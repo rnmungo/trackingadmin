@@ -60,7 +60,6 @@ const ReportTableRow = ({ row }) => {
   const getMidPoint = travels => {
     const inProcessTravel = travels.find(travel => travel.status === 'InProgress');
     if (inProcessTravel) {
-      console.log(inProcessTravel);
       const start = inProcessTravel.distance.originLocation;
       const end = inProcessTravel.distance.destinationLocation;
       const progress = 0.5;
